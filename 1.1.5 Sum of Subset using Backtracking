@@ -1,0 +1,55 @@
+#include <stdio.h>
+
+int a[100], subset[100];
+int n, target, found = 0;
+int result[1000][100];
+int size[1000], cnt = 0;
+
+void backtrack(int index, int sum, int k) {
+    if (index == n) {
+        if (sum == target) {
+            int i;
+            for (i = 0; i < k; i++)
+                result[cnt][i] = subset[i];
+            size[cnt] = k;
+            cnt++;
+            found = 1;
+        }
+        return;
+    }
+
+    // Include current element
+    subset[k] = a[index];
+    backtrack(index + 1, sum + a[index], k + 1);
+
+    // Exclude current element
+    backtrack(index + 1, sum, k);
+}
+
+int main() {
+    int i, j;
+
+    scanf("%d", &n);
+
+    for (i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+
+    scanf("%d", &target);
+
+    backtrack(0, 0, 0);
+
+if (!found) {
+    printf("-1");
+} else {
+    for (i = cnt - 1; i >= 0; i--) {
+        for (j = 0; j < size[i]; j++) {
+            if (j > 0)
+                printf("");
+            printf("%d ", result[i][j]);
+        }
+        if (i != 0)
+            printf("\n");
+    }
+}
+    return 0;
+}
