@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+int main() {
+    int N, W;
+
+    scanf("%d", &N);
+
+    int values[N], weights[N];
+
+    for (int i = 0; i < N; i++) {
+        scanf("%d", &values[i]);
+    }
+
+    for (int i = 0; i < N; i++) {
+        scanf("%d", &weights[i]);
+    }
+
+    scanf("%d", &W);
+
+    int dp[W + 1];
+
+    for (int w = 0; w <= W; w++) {
+        dp[w] = 0;
+    }
+
+    for (int i = 0; i < N; i++) {
+        for (int w = W; w >= weights[i]; w--) {
+            int include = dp[w - weights[i]] + values[i];
+
+            if (include > dp[w]) {
+                dp[w] = include;
+            }
+        }
+    }
+
+    printf("%d\n", dp[W]);
+
+    return 0;
+}
